@@ -1,0 +1,62 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  ### Nombre del box que añadimos con "vagrant box add 'testing' URL/PATH_LOCAL".
+  config.vm.box = "testing"
+  
+  ### Nombre que tendrá la máquina virtual en el OS.
+  config.vm.hostname = "testing"
+  
+  ### Reenvio de puertos para la red pública, config.vm.network "public_network".
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
+
+  ### Reenvio de puertos a la ip "127.0.0.1" o "localhost", no accesible desde la red pública.
+  config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+  ### Crea una red privada a la cual sólo accede el "host", usando una IP especificada.
+  # config.vm.network "private_network", ip: "192.168.33.10"
+
+  ### Crea una red pública en modo "Bridge" y simula que la "MV" es una máquina física accesible en la red.
+  # config.vm.network "public_network"
+
+  ### Sincroniza la carpeta "host" con la "guest", si la carpeta en la "VM" no existe, la crea.
+  #config.vm.synced_folder "./testing", "/testing"
+
+  ### Configuracion de la "MV" para el proveedor "virtualbox"
+  ### http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvm
+   #config.vm.provider "virtualbox" do |vb|
+     ### Muestra la consola de la "MV" tal como hace "virtualbox" al trabajar sin "vagrant".
+     #vb.gui = true
+     ### Configura la cantidad de memoria RAM en la "MV".
+     #vb.memory = "512"
+	 ### Otra forma de configurar la memoria RAM.
+     #vb.customize ["modifyvm", :id, "--memory", 1024]
+	 ### Configura la cantidad de CPU's en la "MV".
+	 #vb.cpus = "1"
+	 ### Otra forma de configurar la cantidad de CPU's.
+     #vb.customize ["modifyvm", :id, "--cpus", 2]
+	 ### Configura el nombre de la "MV" en "VirtualBox", no el nombre en el OS.
+	 #vb.name = "My Box" 
+	 ### Otra forma de configurar el nombre de la "MV"
+     #vb.customize ["modifyvm", :id, "--name", "Mi_PC"]
+   #end
+  
+  ### Activa el aprovisionamiento mediante "Shell script", la variable "inline" indica que las instrucciones
+  ### están en el propio fichero "Vagrantfile". Para usar un fichero "script.sh" independiente, se usa la variable
+  ### "path" de la siguiente forma: (config.vm.provision "shell", path: "script.sh")
+  ### config.vm.provision "shell", path: "script.sh"
+  # config.vm.provision "shell", inline: <<-SHELL
+  #   apt-get update
+  #   apt-get install -y apache2
+  # SHELL
+  
+  ### Activa el aprovisionamiento con "Ansible" de forma local, es decir "Ansible" está instalado en la "MV"
+  ### no en el "host de control". Además instala "Ansible" durante el aprovisionamiento.
+  #config.vm.provision "ansible_local" do |ansible|  
+	#ansible.playbook = "playbook.yml"  
+	#ansible.install_mode = "pip"  
+	#ansible.pip_install_cmd = "sudo apt install ansible -y" 
+  #end
+end

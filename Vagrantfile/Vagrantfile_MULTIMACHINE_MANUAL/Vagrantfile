@@ -1,0 +1,84 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  #config.vm.box = "ansible"
+  
+  ### Reenvio de puertos para la red pública, config.vm.network "public_network".
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
+
+  ### Reenvio de puertos a la ip "127.0.0.1" o "localhost", no accesible desde la red pública.
+  #config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+  ### Crea una red privada a la cual sólo accede el "host", usando una IP especificada.
+  # config.vm.network "private_network", ip: "192.168.33.10"
+
+  ### Crea una red pública en modo "Bridge" y simula que la "MV" es una máquina física accesible en la red.
+  # config.vm.network "public_network"
+
+  ### Sincroniza la carpeta "host" con la "guest", si la carpeta en la "VM" no existe, la crea.
+  #config.vm.synced_folder "./testing", "/testing"
+  
+  ### Activa el aprovisionamiento mediante "Shell script", la variable "inline" indica que las instrucciones
+  ### están en el propio fichero "Vagrantfile". Para usar un fichero "script.sh" independiente, se usa la variable
+  ### "path" de la siguiente forma: (config.vm.provision "shell", path: "script.sh")
+  ### config.vm.provision "shell", path: "script.sh"
+  # config.vm.provision "shell", inline: <<-SHELL
+  #   apt-get update
+  #   apt-get install -y apache2
+  # SHELL
+  
+  ### Activa el aprovisionamiento con "Ansible" de forma local, es decir "Ansible" está instalado en la "MV"
+  ### no en el "host de control". Además instala "Ansible" durante el aprovisionamiento.
+  #config.vm.provision "ansible_local" do |ansible|  
+	#ansible.playbook = "playbook.yml"  
+	#ansible.install_mode = "pip"  
+	#ansible.pip_install_cmd = "sudo apt install ansible -y" 
+  #end
+
+  
+  config.vm.define "server1" do |srv1|
+    srv1.vm.box = "ansible"
+    srv1.vm.hostname = "server1"
+    srv1.vm.network "private_network", ip: "192.168.1.10"
+	srv1.vm.network "forwarded_port", guest: 22, host: 2222, id: "ssh"
+	### Si declaramos el reenvio de puertos individualmente, debemos especificar un "id" (id: "ssh")
+	### en vez de "host_ip" (host_ip: "127.0.0.1"), o nos dará un error al ejecutar "vagrant validate"
+	### avisando que el reenvio se ha declarado multiples veces.
+    #srv1.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+    srv1.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--memory", 512]
+	  vb.customize ["modifyvm", :id, "--cpus", 1]
+      vb.customize ["modifyvm", :id, "--name", "server1"]
+	end
+  end
+  
+  config.vm.define "server2" do |srv2|
+    srv2.vm.box = "ansible"
+    srv2.vm.hostname = "server2"
+    srv2.vm.network "private_network", ip: "192.168.1.20"
+	srv2.vm.network "forwarded_port", guest: 22, host: 2223, id: "ssh"
+    #srv2.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+    srv2.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--memory", 512]
+	  vb.customize ["modifyvm", :id, "--cpus", 1]
+      vb.customize ["modifyvm", :id, "--name", "server2"]
+	end
+  end
+  
+  config.vm.define "controller" do |ctrl|
+    ctrl.vm.box = "ansible"
+    ctrl.vm.hostname = "controller"
+    ctrl.vm.network "private_network", ip: "192.168.1.5"
+	ctrl.vm.network "forwarded_port", guest: 22, host: 2224, id: "ssh"
+    #ctrl.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+    ctrl.vm.provider "virtualbox" do |vb|
+      vb.customize ["modifyvm", :id, "--memory", 512]
+	  vb.customize ["modifyvm", :id, "--cpus", 1]
+      vb.customize ["modifyvm", :id, "--name", "controller"]
+	end
+  end
+end

@@ -1,0 +1,61 @@
+﻿# -*- mode: ruby -*-
+
+# vi: set ft=ruby :
+
+boxes = [
+    {
+        :name => "srv1",
+        :eth1 => "192.168.10.50",
+        :mem => "512",
+        :cpu => "1",
+		:box => "ubuntu/prueba",
+		:sshport => "2222",
+		:group => "/ansible"
+    },
+    {
+        :name => "srv2",
+        :eth1 => "192.168.10.51",
+        :mem => "512",
+        :cpu => "1",
+		:box => "ubuntu/prueba",
+		:sshport => "2223",
+		:group => "/ansible"
+    },
+    {
+        :name => "srv3",
+        :eth1 => "192.168.10.52",
+        :mem => "512",
+        :cpu => "1",
+		:box => "ubuntu/prueba",
+		:sshport => "2224",
+		:group => "/ansible"
+    }
+]
+
+Vagrant.configure(2) do |config|
+
+	# Desactivar sincronización de la carpeta raiz.
+	#config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
+	
+	boxes.each do |opts|
+		config.vm.define opts[:name] do |subconfig|
+			subconfig.vm.box = opts[:box]
+			subconfig.vm.hostname = opts[:name]
+			subconfig.vm.network "private_network", ip: opts[:eth1]
+			subconfig.vm.network "forwarded_port", guest: 22, host: opts[:sshport], id: "ssh"
+			subconfig.vm.synced_folder ".", "/vagrant", id: "vagrant-root"
+			### Configuracion de la "MV" para el proveedor "virtualbox"
+			### http://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvm
+			subconfig.vm.provider "virtualbox" do |vb|
+				vb.customize ["modifyvm", :id, "--name", opts[:name]]
+				vb.customize ["modifyvm", :id, "--groups", opts[:group]]
+				vb.customize ["modifyvm", :id, "--memory", opts[:mem]]
+				vb.customize ["modifyvm", :id, "--cpus", opts[:cpu]]
+			end
+		end
+	end
+	
+	config.vm.provision "shell", inline: <<-SHELL
+		cat /vagrant/id_rsa.pub >> /home/vagrant/.ssh/authorized_keys
+	SHELL
+end

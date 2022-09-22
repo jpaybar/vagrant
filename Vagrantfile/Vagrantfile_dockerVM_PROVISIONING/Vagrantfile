@@ -1,0 +1,53 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+################ INSTALACION PLUGIN AUTOMATICA ##################
+# Si el plugin no está instalado, lo instalamos a la
+# hora de ejecutar el Vagrantfile. Si estamos detrás de un proxy
+# debemos realizar la instalación manual.
+#################################################################
+#unless Vagrant.has_plugin?("vagrant-docker-compose")
+#  system("vagrant plugin install vagrant-docker-compose")
+#  puts "Installing vagrant-docker-compose Plugin..."
+#  #exit
+#end
+##################################################################
+
+#################### INSTALACION PLUGIN MANUAL ###################
+# vagrant plugin install vagrant-docker-compose
+#
+# SI ESTAMOS DETRÁS DE UN PROXY DEBEREMOS EJECUTAR PRIMERO EN 
+# UNA cmd (NO powershell):
+#
+# set http_proxy=http://10.40.56.3:8080
+# set https_proxy=http://10.40.56.3:8080
+##################################################################
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu2004"
+  config.vm.hostname = "docker"
+  config.vm.network "private_network", ip: "192.168.10.100"
+  # Map ports from local PC, to VM ... which intern will be mapped to container ports in docker-compose.yml
+  config.vm.network "forwarded_port", 
+	guest: 80, host: 80, id: "app"
+  config.vm.network "forwarded_port", 
+	guest: 3306, host: 3306, id: "mysql"
+  config.vm.network "forwarded_port", 
+	guest: 8000, host: 8000, id: "phpmyadmin"
+  
+  config.vm.provider "virtualbox" do |vb|
+	vb.customize ["modifyvm", :id, "--name", "docker"]
+	vb.customize ["modifyvm", :id, "--memory", "4096"]
+	vb.customize ["modifyvm", :id, "--cpus", "2"]
+  end
+  
+  config.vm.provision :shell, inline: "apt-get update"
+  config.vm.provision :docker
+  config.vm.provision :shell, path: "./vagrant_provisioning/setup_docker_proxy.sh"
+  config.vm.provision :shell, path: "./vagrant_provisioning/setup_docker_compose.sh"
+  config.vm.provision :shell, path: "./vagrant_provisioning/deploy_app.sh"
+  #config.vm.provision :docker_compose, yml: "/vagrant/docker-compose.yml", run: "always"
+  #config.vm.provision :docker_compose, yml: "/vagrant/docker-compose.yml", project_name: "myproject", run: "always"
+  config.vm.post_up_message = "MÁQUINA VIRTUAL OK"
+end
+
