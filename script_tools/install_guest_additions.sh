@@ -26,6 +26,7 @@ if [ "$EUID" -ne 0 ]
   then 
   echo
   echo -e "${RED}Please, run this script as \"root\"${NC}" 
+  rm LATEST-STABLE.TXT
   echo
   return 
 fi
