@@ -81,9 +81,6 @@ else
     
 fi
 
-####/usr/bin/getent passwd vagrant || useradd vagrant -g vagrant -G wheel
-####echo -e "vagrant\nvagrant" | passwd vagrant
-
 # Adding the user "vagrant" to "sudo"
 echo "vagrant        ALL=(ALL)       NOPASSWD: ALL" >> /etc/sudoers.d/vagrant
 chmod 0440 /etc/sudoers.d/vagrant
