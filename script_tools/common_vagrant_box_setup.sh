@@ -101,4 +101,12 @@ echo -e "\n\033[1;34mWelcome to this Vagrant-built VM. Customized by Juan M. Pay
 echo -e "${ORANGE}Customizing the message of the day....${NC}" 
 echo 
 
+# Create /vagrant directory
+echo -e "${GREEN}Creating the \"/vagrant\" directory for sync folders....${NC}"
+echo
+mkdir -pm 777 /vagrant
 
+# assigns the vagrant user the /vagrant folder
+echo -e "${ORANGE}Assigning the user \"vagrant\" as the owner of the folder \"/vagrant\"....${NC}" 
+echo
+chown -R vagrant:vagrant /vagrant
