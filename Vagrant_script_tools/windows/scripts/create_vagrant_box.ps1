@@ -76,7 +76,7 @@ vagrant package                               `
     --base $BOX_NAME                              `
     --output $BOX_NAME-version_$BOX_VERSION.box              `
     --vagrantfile $BOX_NAME-version_$BOX_VERSION.Vagrantfile `
-    --include $BOX_NAME-info_$BOX_VERSION.json       `
+    --info info.json       `
     $BOX_NAME
 	
 cd ..\scripts\

@@ -92,19 +92,19 @@ Write-Host "BOX_VERSION=" -nonewline
 Write-Host "$BOX_VERSION" -ForegroundColor DarkGray
 Write-Host "================= Info =================" -ForegroundColor DarkGray
 
-# Generating file
+# Generating info file
 echo @"
 {
   "author": "$AUTHOR",
   "homepage": "$HOMEPAGE",
   "mail": "$MAIL"
 }
-"@ | out-file $BOX_NAME-info_$BOX_VERSION.json -Encoding ascii
+"@ | out-file info.json -Encoding ascii
 
 cd ..\scripts\
 
 Write-Host
 Write-Host "The `"info.json`" file was created as " -ForegroundColor green -nonewline 
-Write-Host "`"boxes\$BOX_NAME-info_$BOX_VERSION.json`"." -ForegroundColor DarkGray
+Write-Host "`"boxes\info.json`"." -ForegroundColor DarkGray
 Write-Host
 Write-Host
