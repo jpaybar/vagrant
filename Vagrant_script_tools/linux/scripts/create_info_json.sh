@@ -69,7 +69,7 @@ echo -e BOX_VERSION="${DGREY}$BOX_VERSION${NC}"
 echo -e "${DGREY}========================================${NC}"
 
 # Generating file
-cat << EOF > $BOX_NAME-info_$BOX_VERSION.json
+cat << EOF > info.json
 {
   "author": "$AUTHOR",
   "homepage": "$HOMEPAGE",

@@ -55,9 +55,14 @@ vagrant package                               \
     --base $BOX_NAME                              \
     --output $BOX_NAME-version_$BOX_VERSION.box              \
     --vagrantfile $BOX_NAME-version_$BOX_VERSION.Vagrantfile \
-    --include $BOX_NAME-info_$BOX_VERSION.json       \
+    --include info.json       \
     $BOX_NAME
 	
+# It should be "--info info.json" flag instead of "--include info.json" but some vagrant version seem not to have this flag
+# like my vagrant version 2.2.6 on Ubuntu 20.04.
+# So, this option include de info.json but information is not showed when you run the comand:
+# vagrant box list -i
+# Because info.json is placed into the "include" folder instead of the "root" folder.
 	
 echo
 echo -e "${GREEN}The \"Vagrant Box\" file was created as${NC} ${DGREY}\"boxes/$BOX_NAME-version_$BOX_VERSION.box\".${NC}"
