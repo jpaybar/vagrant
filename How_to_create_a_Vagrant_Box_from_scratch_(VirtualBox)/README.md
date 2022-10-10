@@ -63,11 +63,11 @@ The process of creating the VM can be done with the script called `Add_VirtualBo
 
 You will see a screen similar to this:
 
-![Add_VirtualBoxVM_CLI.ps1.PNG](C:\LABO\vagrant\VAGRANT\Vagrant\How_to_create_a_Vagrant_Box_from_scratch_(VirtualBox)\images\Add_VirtualBoxVM_CLI.ps1.PNG)
+![Add_VirtualBoxVM_CLI.ps1.PNG](https://github.com/jpaybar/Vagrant/blob/main/How_to_create_a_Vagrant_Box_from_scratch_(VirtualBox)/images/Add_VirtualBoxVM_CLI.ps1.PNG)
 
 Installation is finished:
 
-![installation_completed.PNG](C:\LABO\vagrant\VAGRANT\Vagrant\How_to_create_a_Vagrant_Box_from_scratch_(VirtualBox)\images\installation_completed.PNG)
+![installation_completed.PNG](https://github.com/jpaybar/Vagrant/blob/main/How_to_create_a_Vagrant_Box_from_scratch_(VirtualBox)/images/installation_completed.PNG)
 
 ## Configuring the VM to create the Vagrant Box:
 
@@ -153,7 +153,7 @@ You can connect to the virtual machine from a console by running the following c
 ssh vagrant@127.0.0.1 -p 2222
 ```
 
-![conexion_ssh.PNG](C:\LABO\vagrant\VAGRANT\Vagrant\How_to_create_a_Vagrant_Box_from_scratch_(VirtualBox)\images\conexion_ssh.PNG)
+![conexion_ssh.PNG](https://github.com/jpaybar/Vagrant/blob/main/How_to_create_a_Vagrant_Box_from_scratch_(VirtualBox)/images/conexion_ssh.PNG)
 
 ```bash
 wget https://raw.githubusercontent.com/jpaybar/Vagrant/main/Vagrant_script_tools/linux/scripts/common_vagrant_box_setup.sh
@@ -168,7 +168,7 @@ chmod +x common_vagrant_box_setup.sh install_guest_additions.sh
 
 You will see a screen similar to this once the scripts run:
 
-![running_common_vagrant_box_setup.sh.PNG](C:\LABO\vagrant\VAGRANT\Vagrant\How_to_create_a_Vagrant_Box_from_scratch_(VirtualBox)\images\running_common_vagrant_box_setup.sh.PNG)
+![running_common_vagrant_box_setup.sh.PNG](https://github.com/jpaybar/Vagrant/blob/main/How_to_create_a_Vagrant_Box_from_scratch_(VirtualBox)/images/running_common_vagrant_box_setup.sh.PNG)
 
 ## The VM is ready to be packaged and create our Vagrant Box:
 
