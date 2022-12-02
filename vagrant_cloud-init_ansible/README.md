@@ -287,9 +287,9 @@ vagrant up
 
 #### Comprobamos que el usuario `jpaybar` se ha creado y conecta por `SSH`
 
-![usuario.PNG](C:\LABO\vagrant\VAGRANT\Vagrant\vagrant_cloud-init_ansible\_images\usuario.PNG)
+![usuario.PNG](https://github.com/jpaybar/Vagrant/blob/main/vagrant_cloud-init_ansible/_images/usuario.PNG)
 
-![conexion.PNG](C:\LABO\vagrant\VAGRANT\Vagrant\vagrant_cloud-init_ansible\_images\conexion.PNG)
+![conexion.PNG](https://github.com/jpaybar/Vagrant/blob/main/vagrant_cloud-init_ansible/_images/conexion.PNG)
 
 El script `cloud-config` se ha ejecutado correctamente.
 
@@ -309,11 +309,11 @@ Detalles de la configuración `PHP`
 
 http://localhost/info.php
 
-![apache.PNG](C:\LABO\vagrant\VAGRANT\Vagrant\vagrant_cloud-init_ansible\_images\apache.PNG)
+![apache.PNG](https://github.com/jpaybar/Vagrant/blob/main/vagrant_cloud-init_ansible/_images/apache.PNG)
 
-![mysql.PNG](C:\LABO\vagrant\VAGRANT\Vagrant\vagrant_cloud-init_ansible\_images\mysql.PNG)
+![mysql.PNG](https://github.com/jpaybar/Vagrant/blob/main/vagrant_cloud-init_ansible/_images/mysql.PNG)
 
-![php.PNG](C:\LABO\vagrant\VAGRANT\Vagrant\vagrant_cloud-init_ansible\_images\php.PNG)
+![php.PNG](https://github.com/jpaybar/Vagrant/blob/main/vagrant_cloud-init_ansible/_images/php.PNG)
 
 Ahora podremos lanzar ambos scripts contra una instancia en la nube que use una imagen de `Ubuntu 18.04 LTS` con seguridad de que funcionarán.
 
