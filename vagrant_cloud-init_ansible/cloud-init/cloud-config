@@ -1,0 +1,15 @@
+#cloud-config
+# create additional user
+users:
+  - name: jpaybar
+    gecos: Juan M. Payan Barea (Ansible User)
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh_authorized_keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDJNMRJJOR+fIWelza0jrFUfReY/89zV7DNqVn+qJOhIRyY0Pg9sEtp6GJ60bzP+4w18g/cUsrVSvyzy9PC4jDCgfZGPd//t37LqyTv2/77O8ZaNxMeIlkPGEd1AZUgzIHIUymHRxaVnW61ayLGuw8pjuATGnriOPZqULrXiZZj5xWBRQfDwW+bb9sWSFku5bxNzcbWGepuQxjxkk6p7mnXk8kWlOw5ZinHA0LSNY0InGdIWLpjq4iEJYGsRezyqfhMdaiHeCYCHZKa0RPzw7AL/OdApFHNAJKGZSD45C+UjJqXX4D/X4OBkcBdzBXPAvQOXu/hKcGngo2XnYRJlP1eg29lCRORo11PXBO3zYeUBPpD5IQ1uQGNtHTW3GyyzgAy16kVTBI4jB7VJHfTg3lNRCzh68W5tLmmi1utnkqAxzn3Ev2NDwEeId9+6ca2+B0HYY0lSG7hJbJ2A0IECRMkZyPk5UWbLs4KJCeZi//RDKwrE6XDSNgWCEPZqSr8ohc= vagrant@masterVM
+
+
+
+
+
+ 

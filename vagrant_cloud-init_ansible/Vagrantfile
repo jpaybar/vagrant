@@ -1,0 +1,66 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+boxes = [
+    {
+        :name => "custom-bionic64", 
+        :eth1 => "192.168.56.30",
+        :mem => "1024",
+        :cpu => "1",
+		:box => "bionic64",
+		:sshport => "2230",
+		:httpport => "80",
+		:group => "/customized"
+    }
+]
+
+Vagrant.configure(2) do |config|
+
+	if Vagrant.has_plugin?("vagrant-proxyconf")
+		config.proxy.http     = "http://10.40.56.3:8080"
+		config.proxy.https    = "http://10.40.56.3:8080"
+		config.proxy.no_proxy = "localhost,127.0.0.1,192.168.56.0/24"
+    end
+	
+	if Vagrant.has_plugin?("vagrant-vbguest") then
+          config.vbguest.auto_update = false
+    end
+	
+	# https://github.com/gosuri/vagrant-env
+	config.env.enable # vagrant plugin install vagrant-env
+	
+	boxes.each do |opts|
+		config.ssh.insert_key = false
+		config.vm.define opts[:name] do |subconfig|
+			subconfig.vm.box = opts[:box]
+			subconfig.vm.hostname = opts[:name]
+			subconfig.vm.network "private_network", ip: opts[:eth1]
+			subconfig.vm.network "forwarded_port", guest: 22, host: opts[:sshport], id: "ssh"
+			subconfig.vm.network "forwarded_port", guest: 80, host: opts[:httpport], id: "http"
+			subconfig.vm.provider "virtualbox" do |vb|
+				vb.customize ["modifyvm", :id, "--name", opts[:name]]
+				vb.customize ["modifyvm", :id, "--memory", opts[:mem]]
+				vb.customize ["modifyvm", :id, "--cpus", opts[:cpu]]
+				vb.customize ["modifyvm", :id, "--groups", opts[:group]]
+			end
+		end
+	end
+	# Simplified form
+	# subconfig.vm.cloud_init content_type: "text/cloud-config", path: "./cloud-init/cloud-config.yml"
+	
+	# Block form
+	# https://cloudinit.readthedocs.io/en/latest/topics/examples.html
+	# https://developer.hashicorp.com/vagrant/docs/cloud-init
+	config.vm.cloud_init do |cloud_init|
+		cloud_init.content_type = "text/cloud-config"
+		cloud_init.path = "cloud-init/cloud-config"
+	end
+	
+	# https://developer.hashicorp.com/vagrant/docs/provisioning/ansible
+	# https://developer.hashicorp.com/vagrant/docs/provisioning/ansible_common
+	config.vm.provision "ansible_local" do |ansible|
+		ansible.playbook = "lamp/playbook.yml"
+		ansible.config_file = "lamp/ansible.cfg"
+    end
+end
+

@@ -1,0 +1,1 @@
+Download the .zip file and extract it. Then cut and paste the Oscdimg.exe file into your C:\Windows\System32 directory
