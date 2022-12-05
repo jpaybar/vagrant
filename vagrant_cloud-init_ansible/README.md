@@ -62,15 +62,15 @@ Debemos instalar lo previamente desde el interprete de comandos. Si estamos detr
 Linux
 
 ```bash
-echo 'export http_proxy="http://10.40.56.3:8080"' >> /etc/environment
-echo 'export https_proxy="http://10.40.56.3:8080"' >> /etc/environment
+echo 'export http_proxy="http://your.proxy.here:8080"' >> /etc/environment
+echo 'export https_proxy="http://your.proxy.here:8080"' >> /etc/environment
 ```
 
 Windows
 
 ```powershell
-PS C:\> $ENV:http_proxy="http://10.40.56.3:8080"
-PS C:\> $ENV:https_proxy="http://10.40.56.3:8080"
+PS C:\> $ENV:http_proxy="http://your.proxy.here:8080"
+PS C:\> $ENV:https_proxy="http://your.proxy.here:8080"
 ```
 
 ```bash
@@ -180,8 +180,8 @@ boxes = [
 Vagrant.configure(2) do |config|
 
     if Vagrant.has_plugin?("vagrant-proxyconf")
-        config.proxy.http     = "http://10.40.56.3:8080"
-        config.proxy.https    = "http://10.40.56.3:8080"
+        config.proxy.http     = "http://your.proxy.here:8080"
+        config.proxy.https    = "http://your.proxy.here:8080"
         config.proxy.no_proxy = "localhost,127.0.0.1,192.168.56.0/24"
     end
 
