@@ -1,0 +1,53 @@
+﻿# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+############################### HOW TO CONNECT ######################################
+#
+#	vagrant up
+#
+#	vagrant rdp
+#
+#####################################################################################
+
+boxes = [
+    {
+        :name => "windows7",
+		:eth1 => "192.168.59.200", 
+        :mem => "2048",
+        :cpu => "1",
+		:box => "windows7",
+		:group => "/windows"
+    }
+]
+
+
+
+Vagrant.configure(2) do |config|
+	if Vagrant.has_plugin?("vagrant-vbguest") then
+		config.vbguest.auto_update = false
+	end
+
+	if Vagrant.has_plugin?("vagrant-proxyconf")
+		config.proxy.http     = "http://your.proxy.here:8080"
+		config.proxy.https    = "http://your.proxy.here:8080"
+		config.proxy.no_proxy = "localhost,127.0.0.1,192.168.56.0/24,192.168.59.0/24"
+	end
+	boxes.each do |opts|
+		config.vm.define opts[:name] do |subconfig|
+			subconfig.vm.guest = :windows
+			subconfig.vm.communicator = "winrm"
+			subconfig.vm.box = opts[:box]
+			subconfig.vm.hostname = opts[:name]
+			subconfig.vm.network "private_network", ip: opts[:eth1]
+			subconfig.vm.provider "virtualbox" do |vb|
+				vb.customize ["modifyvm", :id, "--name", opts[:name]]
+				vb.customize ["modifyvm", :id, "--memory", opts[:mem]]
+				vb.customize ["modifyvm", :id, "--cpus", opts[:cpu]]
+				vb.customize ["modifyvm", :id, "--groups", opts[:group]]
+			end
+			subconfig.vm.post_up_message = "MÁQUINA VIRTUAL OK"
+		end
+	end
+end
+
+
