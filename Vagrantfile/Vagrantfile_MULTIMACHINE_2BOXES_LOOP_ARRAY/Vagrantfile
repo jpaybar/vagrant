@@ -31,8 +31,11 @@ boxes = [
 
 Vagrant.configure(2) do |config|
 
-	# Desactivar sincronización de la carpeta raiz.
-	#config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: true
+	# Desactivar/activar sincronización de la carpeta raiz.
+	# Puede ser necesario instalar el paquete "cifs-utils"
+	# Confirmar si la carpeta /vagrant esta montada: 
+	# vagrant ssh -c 'ls -l /'
+	config.vm.synced_folder ".", "/vagrant", id: "vagrant-root", disabled: false
 	
 	boxes.each do |opts|
 		config.vm.define opts[:name] do |subconfig|
